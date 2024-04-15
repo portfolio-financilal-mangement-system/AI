@@ -1,2 +1,1 @@
-# AI
-ai model of portfolio financial management system
+This is the main directory for the project. 
