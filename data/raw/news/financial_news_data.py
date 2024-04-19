@@ -10,16 +10,16 @@ try:
     keywords = {
         'apple': ['apple stock price news'],
         'microsoft': ['Microsoft stock price news'],
-        'google': ['Google stock price news']
+        'google': ['Google stock price news'],
+        'egypt' : ['Egypt US exchange rate'],
     }
     
-    sources = 'bbc-news,the-verge,aj-news,financial-times,news24,news-com,the-telegraph,alahram,al-jazeera-english,esquire,google-news,associated-press'
 
     # Fetch news articles based on keywords and sources for each company
     for company, keyword_list in keywords.items():
         articles = []
         for keyword in keyword_list:
-            news = newsapi.get_everything(q=keyword, sources=sources, language='en', page_size=100)
+            news = newsapi.get_everything(q=keyword, language='en', page_size=100)
             articles.extend(news['articles'])
 
         # Extract relevant data from news articles
