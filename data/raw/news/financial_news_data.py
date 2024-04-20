@@ -12,6 +12,7 @@ try:
         'microsoft': ['Microsoft stock price news'],
         'google': ['Google stock price news'],
         'egypt' : ['Egypt US exchange rate'],
+        'forex_egypt': ['forex egypt', 'Egyptian pound exchange rate', 'forex market Egypt'],
     }
     
 
