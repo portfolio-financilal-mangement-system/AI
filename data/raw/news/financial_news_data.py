@@ -2,17 +2,16 @@ def fetch_financial_news():
     import pandas as pd
     from newsapi import NewsApiClient
 
-    # Initialize NewsApiClient with your API key
-    api_key = 'bd7d2cd018d34e13a458621834f978c0'
-    newsapi = NewsApiClient(api_key=api_key)
-
     try:
+        # Initialize NewsApiClient with your API key
+        api_key = 'bd7d2cd018d34e13a458621834f978c0'
+        newsapi = NewsApiClient(api_key=api_key)
+
         # Define keywords and sources for news articles
         keywords = {
             'apple': ['apple stock price news'],
             'microsoft': ['Microsoft stock price news'],
             'google': ['Google stock price news'],
-            'egypt' : ['Egypt US exchange rate'],
             'forex_egypt': ['forex egypt', 'Egyptian pound exchange rate', 'forex market Egypt'],
         }
 
@@ -28,7 +27,7 @@ def fetch_financial_news():
 
             # Extract relevant data from news articles
             data = {
-                'date': [article['publishedAt'] for article in articles],
+                'date': pd.to_datetime([article['publishedAt'] for article in articles]),  # Convert to Timestamp
                 'content': [article['content'] for article in articles],
                 'headlines': [article['title'] for article in articles]
             }
@@ -36,20 +35,21 @@ def fetch_financial_news():
             # Create a DataFrame from the extracted data
             df = pd.DataFrame(data)
 
-            # # Define the filename based on the company
-            # filename = f'{company}-news_data.csv'
+            # Calculate last week's and last month's dates
+            today = pd.Timestamp('today', tz='UTC')
+            last_week_start = today - pd.Timedelta(days=7)
+            last_month_start = today - pd.DateOffset(months=1)
 
-            # # Save the DataFrame to a CSV file
-            # df.to_csv(filename, index=False)
+            # Filter data for last week and last month
+            last_week_data = df[(df['date'] >= last_week_start) & (df['date'] < today)]
+            last_month_data = df[(df['date'] >= last_month_start) & (df['date'] < today)]
 
-            # Store the DataFrame in the dictionary
-            dataframes[company] = df
+            # Store the DataFrame in the dictionary as a tuple containing last week's and last month's data
+            dataframes[company] = (last_week_data, last_month_data)
 
         # Return the dictionary containing dataframes for each company
         return dataframes
 
     except Exception as e:
         print("Error occurred:", str(e))
-
-# Call the function
-getDataframes = fetch_financial_news()
+        return None
