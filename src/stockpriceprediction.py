@@ -40,5 +40,5 @@ regressor.compile(optimizer='adam', loss='mean_squared_error')
 regressor.fit(X_train, y_train, epochs=200, batch_size=64)
 
 # Save the model
-with open('regressor_model.pkl', 'wb') as f:
+with open('AAPL_model.pkl', 'wb') as f:
     pickle.dump(regressor, f)
