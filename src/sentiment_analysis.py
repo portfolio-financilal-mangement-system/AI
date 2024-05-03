@@ -7,25 +7,6 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import sys
 import os
 
-# Insert the parent directory of the current script into the Python path
-script_dir = os.path.dirname(__file__)
-sys.path.insert(0, os.path.abspath(os.path.join(script_dir, '..')))
-
-# Assuming financial_news_data is a function that fetches financial news data
-from data.raw.news.financial_news_data import fetch_financial_news
-
-# Function to perform sentiment analysis for a given dataframe
-def perform_sentiment_analysis(df, model_name):
-    # Choose a pre-trained DistilBERT model for sentiment analysis
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSequenceClassification.from_pretrained(model_name)
-    
-    # Get sentiment analysis results for each article in the dataframe
-    sentiment_analysis = df["content"].apply(lambda x: predict_sentiment(x, tokenizer, model))
-    
-    # Return the sentiment analysis results
-    return sentiment_analysis
-
 # Function to predict sentiment for a given text
 def predict_sentiment(text, tokenizer, model):
     encoded_text = tokenizer(text, return_tensors="pt")
@@ -41,35 +22,66 @@ def predict_sentiment(text, tokenizer, model):
             "score": predictions.max().item()
         }
 
+# Function to perform sentiment analysis for a given dataframe
+def perform_sentiment_analysis(df, model_name):
+    # Choose a pre-trained DistilBERT model for sentiment analysis
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForSequenceClassification.from_pretrained(model_name)
+
+    # Get sentiment analysis results for each article in the dataframe
+    sentiment_analysis = df["content"].apply(lambda x: predict_sentiment(x, tokenizer, model))
+
+    # Get sentiment counts
+    sentiment_counts = sentiment_analysis.apply(lambda x: x['class']).value_counts()
+
+    # Return the sentiment analysis results and counts
+    return {
+        "sentiment_analysis": sentiment_analysis,
+        "sentiment_counts": sentiment_counts
+    }
+
 # Main function
 def main():
-    # Load financial news data
-    dataframes = fetch_financial_news()
-    
+    # Dictionary to store sentiment counts for each company
+    sentiment_counts_dict = {}
+
     # Define the model name
     model_name = "distilbert-base-uncased-finetuned-sst-2-english"
-    
-    # Iterate over each item in the dictionary
-    for company, (last_week_data, last_month_data) in dataframes.items():
-        print(f"Sentiment analysis for {company}:")
 
-        # Perform sentiment analysis for last week
-        last_week_sentiment_analysis = perform_sentiment_analysis(last_week_data, model_name)
-        last_week_sentiment_counts = last_week_sentiment_analysis.apply(lambda x: x['class']).value_counts()
-        print("Last Week Sentiment:")
-        print("Positive:", last_week_sentiment_counts.get('Positive', 0))
-        print("Negative:", last_week_sentiment_counts.get('Negative', 0))
-        print("Neutral:", last_week_sentiment_counts.get('Neutral', 0))
+    # Define the path to the data.raw directory
+    data_raw_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
+    print(data_raw_dir)
+    # Define the path to the news subdirectory
+    path_dir = os.path.join(data_raw_dir, 'raw')
+    news_dir = os.path.join(path_dir, 'news')
+    print(news_dir)
 
-        # Perform sentiment analysis for last month
-        last_month_sentiment_analysis = perform_sentiment_analysis(last_month_data, model_name)
-        last_month_sentiment_counts = last_month_sentiment_analysis.apply(lambda x: x['class']).value_counts()
-        print("\nLast Month Sentiment:")
-        print("Positive:", last_month_sentiment_counts.get('Positive', 0))
-        print("Negative:", last_month_sentiment_counts.get('Negative', 0))
-        print("Neutral:", last_month_sentiment_counts.get('Neutral', 0))
-        
-        print()
+    try:
+        # Get list of CSV files in the news directory
+        csv_files = [file for file in os.listdir(news_dir) if file.endswith("-news_data.csv")]
+
+        # Iterate over each CSV file
+        for csv_file in csv_files:
+            # Load CSV file into a DataFrame
+            df = pd.read_csv(os.path.join(news_dir, csv_file))
+
+            # Convert 'date' column to datetime
+            df['date'] = pd.to_datetime(df['date'])
+
+            # Extract company name from file name
+            company = csv_file.split('-')[0]
+
+            print(f"Sentiment analysis for {company.capitalize()}:")
+            # Perform sentiment analysis for the dataframe
+            results = perform_sentiment_analysis(df, model_name)
+            sentiment_counts_dict[company] = results["sentiment_counts"]
+
+    except FileNotFoundError:
+        print("No CSV files found in the 'news' directory.")
+
+    # Return sentiment counts dictionary
+    return sentiment_counts_dict
 
 if __name__ == "__main__":
-    main()
+    sentiment_counts = main()
+    print(sentiment_counts)
