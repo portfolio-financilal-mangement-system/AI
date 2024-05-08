@@ -1,12 +1,13 @@
+
 import numpy as np
 import pandas as pd
 import pickle
 from sklearn.preprocessing import MinMaxScaler
 import os
 
-def make_apple_predictions():
-    # Get the absolute path to the model file
-    model_path = os.path.join(os.path.dirname(__file__), 'AAPL_model.pkl')
+def make_predictions(company):
+    # Get the absolute path to the model file for the specified company
+    model_path = os.path.join(os.path.dirname(__file__), f'{company}_model.pkl')
     
     try:
         # Load the saved model
@@ -16,8 +17,8 @@ def make_apple_predictions():
         print(f"Error: Model file '{model_path}' not found.")
         return None
 
-    # Load the preprocessed data for prediction
-    data_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'processed', 'AAPL_historical_stock_prices_preprocessed.csv')
+    # Load the preprocessed data for the specified company
+    data_path = os.path.join(os.path.dirname(__file__), '..','..', 'data', 'processed', f'{company}_historical_stock_prices_preprocessed.csv')
     data = pd.read_csv(data_path)
 
     # Scale the data
@@ -41,7 +42,9 @@ def make_apple_predictions():
 
     # Inverse transform the predictions
     next_week_predictions = sc.inverse_transform(np.array(next_week_predictions).reshape(-1, 1))
-
+    print(f"Next week's {company} stock price predictions: {next_week_predictions.flatten()}")
     return next_week_predictions
 
-
+make_predictions('AAPL')
+make_predictions('MSFT')
+make_predictions('GOOGL')    

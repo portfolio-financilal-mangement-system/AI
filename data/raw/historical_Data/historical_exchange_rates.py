@@ -14,4 +14,4 @@ def fetch_usd_to_egp_exchange_rate_and_save_to_csv():
     usd_to_egp_data.to_csv(csv_path)
 
 # Call the function to fetch the data and save it to a CSV file
-fetch_usd_to_egp_exchange_rate_and_save_to_csv()
+# fetch_usd_to_egp_exchange_rate_and_save_to_csv()

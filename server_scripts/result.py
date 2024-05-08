@@ -12,10 +12,10 @@ from data.raw.historical_Data.historical_stock_prices import fetch_stock_data_an
 
 from data.processed.processed_data import preprocess_csv_files
 
-from src.USD_to_EGP_make_predictions import make_usd_to_egp_predictions
-from src.MSFT_make_predictions import make_msft_predictions
-from src.GOOGL_make_predictions import make_google_predictions
-from src.AAPL_make_predictions import make_apple_predictions
+from src.MSFT_stock_prediction import MSFT_predictions
+from src.GOOGL_stock_prediction import GOOGL_predictions
+from src.AAPL_stock_prediction import AAPL_predictions
+from src.USD_to_EGP_stock_prediction import USD_to_EGP_predictions
 
 
 def result():
@@ -23,26 +23,20 @@ def result():
     fetch_stock_data_and_save_to_csv()
     preprocess_csv_files()
     
-    # Generate predictions
-    usd_to_egp_predictions = make_usd_to_egp_predictions()
-    apple_predictions = make_apple_predictions()
-    google_predictions = make_google_predictions()
-    msft_predictions = make_msft_predictions()
-
     return {
         "stock_predictions": {
             "Apple": {
-                "predicted_prices": apple_predictions.flatten().tolist()
+                "predicted_prices": AAPL_predictions()
             },
             "Google": {
-                "predicted_prices": google_predictions.flatten().tolist()
+                "predicted_prices": GOOGL_predictions()
             },
             "Microsoft": {
-                "predicted_prices": msft_predictions.flatten().tolist()
+                "predicted_prices": MSFT_predictions()
             }
         },
         "usd_to_egp_predictions": {
-            "predicted_exchange_rates": usd_to_egp_predictions.flatten().tolist()
+            "predicted_exchange_rates": USD_to_EGP_predictions()
         },
         "news_analysis": {
             "Apple": {
@@ -62,3 +56,6 @@ def result():
             }
         }
     }
+
+
+print("Result function executed successfully",result())
