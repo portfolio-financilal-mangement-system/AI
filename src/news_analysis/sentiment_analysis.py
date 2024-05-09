@@ -6,6 +6,24 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 # Download NLTK resources (if not already downloaded)
 nltk.download('vader_lexicon')
 
+import os
+import sys
+
+# Get the current working directory
+current_dir = os.path.dirname(__file__)
+
+# Calculate the path to the project root directory by going up two directories
+project_root = os.path.abspath(os.path.join(current_dir, '..', '..',))
+
+# Add the project root directory to the Python path
+sys.path.append(project_root)
+
+# Now you can import the module
+from data.raw.news.financial_news_data import save_news_data
+
+# to update the news data
+save_news_data()
+
 # Initialize the SentimentIntensityAnalyzer
 sia = SentimentIntensityAnalyzer()
 

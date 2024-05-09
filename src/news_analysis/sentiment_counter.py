@@ -24,7 +24,7 @@ def count_sentiments(input_filename):
     # print(sentiment_counts)
     return sentiment_counts
 
-print("apple",count_sentiments('../../data/interim/apple-news_sentiment.csv'))
-print("google",count_sentiments('../../data/interim/google-news_sentiment.csv'))
-print("msft",count_sentiments('../../data/interim/microsoft-news_sentiment.csv'))
-print("fx",count_sentiments('../../data/interim/forex_egypt-news_sentiment.csv'))
+# print("apple",count_sentiments('../../data/interim/apple-news_sentiment.csv'))
+# print("google",count_sentiments('../../data/interim/google-news_sentiment.csv'))
+# print("msft",count_sentiments('../../data/interim/microsoft-news_sentiment.csv'))
+# print("fx",count_sentiments('../../data/interim/forex_egypt-news_sentiment.csv'))

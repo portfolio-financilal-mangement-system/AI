@@ -24,6 +24,13 @@ def save_news_data():
         # Get the current year
         current_year = datetime.now().year
 
+        # Get the directory path of the current script
+        current_directory = os.path.dirname(os.path.abspath(__file__))
+
+        # Calculate the date range for the last 7 days
+        end_date = datetime.now()
+        start_date = end_date - timedelta(days=7)
+
         # Define keywords and sources for news articles
         keywords = {
             'apple': ['apple stock price news'],
@@ -33,13 +40,6 @@ def save_news_data():
                     'Egyptian economy news', 'Egyptian currency updates', 'Egyptian financial market', 'Cairo stock exchange', 'Egyptian GDP growth', 'Egyptian inflation rate',
                     'Egyptian monetary policy', 'Central Bank of Egypt'],
         }
-
-        # Get the current working directory
-        current_directory = os.getcwd()
-
-        # Calculate the date range for the last 7 days
-        end_date = datetime.now()
-        start_date = end_date - timedelta(days=7)
 
         # Fetch news articles based on keywords and sources for each company
         for company, keyword_list in keywords.items():
@@ -94,5 +94,3 @@ def save_news_data():
     except Exception as e:
         print("Error occurred:", str(e))
 
-# Call the function to save the news data
-save_news_data()
