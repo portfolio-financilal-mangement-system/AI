@@ -39,7 +39,7 @@ def result():
         "usd_to_egp_predictions": {
             "predicted_exchange_rates": "USD_to_EGP_predictions()"
         },
-        "news_analysis":{
+        "news_analysis_last_week":{
             "Apple": [count_sentiments('../data/interim/apple-news_sentiment.csv')],
             "Google": [count_sentiments('../data/interim/google-news_sentiment.csv')],
             "Microsoft": [count_sentiments('../data/interim/microsoft-news_sentiment.csv')],
