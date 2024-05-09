@@ -10,6 +10,7 @@ sys.path.insert(0, parent_dir)  # Go up one level to the parent directory
 # from data.raw.historical_Data.historical_exchange_rates import fetch_usd_to_egp_exchange_rate_and_save_to_csv
 # from data.raw.historical_Data.historical_stock_prices import fetch_stock_data_and_save_to_csv
 # from data.processed.processed_data import preprocess_csv_files
+from data.raw.news.financial_news_data import save_news_data
 
 # from src.MSFT_stock_prediction import MSFT_predictions
 # from src.GOOGL_stock_prediction import GOOGL_predictions
@@ -18,12 +19,15 @@ sys.path.insert(0, parent_dir)  # Go up one level to the parent directory
 
 # for news analysis
 from src.news_analysis.sentiment_counter import count_sentiments
+from src.news_analysis.sentiment_analysis import makeProcess_csv
 
 def result():
     #  fetch_usd_to_egp_exchange_rate_and_save_to_csv()
     #  fetch_stock_data_and_save_to_csv()
     #  preprocess_csv_files()
-    
+    save_news_data()
+    makeProcess_csv()
+
     return {
         "stock_predictions": {
             "Apple": {
