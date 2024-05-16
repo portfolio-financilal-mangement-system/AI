@@ -22,4 +22,4 @@ def fetch_stock_data_and_save_to_csv():
     print("Historical data saved to CSV files.")
 
 # Call the function to fetch the data and save it to CSV files
-fetch_stock_data_and_save_to_csv()
+# fetch_stock_data_and_save_to_csv()
