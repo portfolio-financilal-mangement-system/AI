@@ -68,4 +68,10 @@ To run this project, you need to install the required libraries. You can install
     pip install nltk
     ```
 
+14. **joblib**: 
+    ```
+    pip install joblib
+    ```
+
+
 Make sure you have Python and pip installed on your system before running these commands. Once you have installed all the required libraries, you can proceed to run the project.
