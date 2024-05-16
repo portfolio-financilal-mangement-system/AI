@@ -5,7 +5,7 @@ import re
 import os
 
 # Initialize NewsApiClient with your API key
-api_key = 'ef4dd9e038264a599f2a1f4c01c941a7'
+api_key = '38657fdd30784297ac52ce20fe54e246'
 newsapi = NewsApiClient(api_key=api_key)
 
 def clean_text(text):

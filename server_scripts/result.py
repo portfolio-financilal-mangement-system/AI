@@ -17,6 +17,7 @@ from src.GOOGL_stock_prediction import GOOGL_predictions
 from src.AAPL_stock_prediction import AAPL_predictions
 from src.USD_to_EGP_stock_prediction import USD_to_EGP_predictions
 
+
 # for news analysis
 from src.news_analysis.sentiment_counter import count_sentiments
 from src.news_analysis.sentiment_analysis import makeProcess_csv
@@ -31,17 +32,17 @@ def result():
     return {
         "stock_predictions": {
             "Apple": {
-                "predicted_prices": AAPL_predictions()
+                "predicted_prices": AAPL_predictions().flatten().tolist()
             },
             "Google": {
-                "predicted_prices": GOOGL_predictions()
+                "predicted_prices": GOOGL_predictions().flatten().tolist()
             },
             "Microsoft": {
-                "predicted_prices": MSFT_predictions()
+                "predicted_prices": MSFT_predictions().flatten().tolist()
             }
         },
         "usd_to_egp_predictions": {
-            "predicted_exchange_rates": USD_to_EGP_predictions()
+            "predicted_exchange_rates": USD_to_EGP_predictions().flatten().tolist()
         },
         "news_analysis_last_week":{
             "Apple": [count_sentiments('../data/interim/apple-news_sentiment.csv')],
@@ -52,4 +53,4 @@ def result():
     }
 
 
-print("Result function executed successfully",result())
+print(result())
