@@ -72,6 +72,21 @@ To run this project, you need to install the required libraries. You can install
     ```
     pip install joblib
     ```
-
+    
+15. **plotly**: 
+    ```
+    pip install plotly
+    ```
+    
+16. **torch**: 
+    ```
+    pip install torch
+    ```
+    
+17. **transformers**: 
+    ```
+    pip install transformers
+    ```
+    
 
 Make sure you have Python and pip installed on your system before running these commands. Once you have installed all the required libraries, you can proceed to run the project.
