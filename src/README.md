@@ -1,1 +1,6 @@
-This directory contains the source code for the project. 
+AAPL_stock_prediction.py
+GOOGL_stock_prediction.py
+MSFT_stock_prediction.py
+USD_to_EGP_stock_prediction.py
+
+خاص ب فارس
